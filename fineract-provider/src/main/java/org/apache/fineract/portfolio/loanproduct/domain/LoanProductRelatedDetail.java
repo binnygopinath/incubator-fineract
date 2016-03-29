@@ -527,7 +527,7 @@ public class LoanProductRelatedDetail implements LoanProductMinimumRepaymentSche
         	recurMoratoriumOnPrincipal = this.recurringMoratoriumOnPrincipalPeriods().intValue();
         }
         
-        if (  ( graceOnPrincipal > 0 || recurMoratoriumOnPrincipal > 0 ) 
+        if (  ( recurMoratoriumOnPrincipal > 0 ) 
         	&& ( (this.numberOfRepayments - graceOnPrincipal) % ( recurMoratoriumOnPrincipal + 1) != 1) ) {
             baseDataValidator.reset().parameter("graceOnPrincipalPayments.and.recurringMoratoriumOnPrincipalPeriods")
 	            	.value(graceOnPrincipal)
