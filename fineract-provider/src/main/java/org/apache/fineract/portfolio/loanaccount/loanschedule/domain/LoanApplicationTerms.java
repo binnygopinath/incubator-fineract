@@ -994,8 +994,12 @@ public final class LoanApplicationTerms {
     }
 
     public boolean isPrincipalGraceApplicableForThisPeriod(final int periodNumber) {
-        return ( (periodNumber > 0 && periodNumber <= getPrincipalGrace())  ||
-        	 (periodNumber > 0 && ( ( ( periodNumber - getPrincipalGrace() ) % ( this.getRecurringMoratoriumOnPrincipalPeriods() + 1) ) != 1)  ) );
+    	if (this.getRecurringMoratoriumOnPrincipalPeriods() > 0) {
+    		return ( (periodNumber > 0 && periodNumber <= getPrincipalGrace())  ||
+    				(periodNumber > 0 && ( ( ( periodNumber - getPrincipalGrace() ) % ( this.getRecurringMoratoriumOnPrincipalPeriods() + 1) ) != 1)  ) );
+    	} else {
+    		return periodNumber > 0 && periodNumber <= getPrincipalGrace();
+    	}
     }
 
     private boolean isInterestPaymentGraceApplicableForThisPeriod(final int periodNumber) {
@@ -1132,7 +1136,7 @@ public final class LoanApplicationTerms {
     public void updateFixedPrincipalAmount(final MathContext mc, final int periodNumber, final Money outstandingAmount) {
     	final Integer numberOfPrincipalPaymentPeriods = calculateNumberOfRemainingPrincipalPaymentPeriods(
     			this.actualNumberOfRepayments, this.getRecurringMoratoriumOnPrincipalPeriods(),
-    			this.getPrincipalGrace(), periodNumber);
+    			this.getPrincipalGrace(), periodNumber-1);
         Money principal = outstandingAmount.dividedBy(numberOfPrincipalPaymentPeriods - periodNumber + 1, mc.getRoundingMode());
         this.fixedPrincipalAmount = principal.getAmount();
     }
