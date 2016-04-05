@@ -1137,7 +1137,7 @@ public final class LoanApplicationTerms {
     	final Integer numberOfPrincipalPaymentPeriods = calculateNumberOfRemainingPrincipalPaymentPeriods(
     			this.actualNumberOfRepayments, this.getRecurringMoratoriumOnPrincipalPeriods(),
     			this.getPrincipalGrace(), periodNumber-1);
-        Money principal = outstandingAmount.dividedBy(numberOfPrincipalPaymentPeriods - periodNumber + 1, mc.getRoundingMode());
+        Money principal = outstandingAmount.dividedBy(numberOfPrincipalPaymentPeriods, mc.getRoundingMode());
         this.fixedPrincipalAmount = principal.getAmount();
     }
     
